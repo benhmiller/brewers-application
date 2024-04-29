@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Row, Container, Col, Dropdown } from 'react-bootstrap';
 import Team from './Team';
 
+// Functional component named BrewersApp
 export default function BrewersApp() {
-    const [teams, setTeams] = useState([]);
-    const [filteredTeams, setFilteredTeams] = useState([]);
-    const [selectedLeague, setSelectedLeague] = useState('');
-    const [selectedDivision, setSelectedDivision] = useState('');
+    // State variables using useState hook
+    const [teams, setTeams] = useState([]); // Holds all teams data
+    const [filteredTeams, setFilteredTeams] = useState([]); // Holds filtered teams data
+    const [selectedLeague, setSelectedLeague] = useState(''); // Holds selected league
+    const [selectedDivision, setSelectedDivision] = useState(''); // Holds selected division
 
+    // useEffect hook to fetch teams data when component mounts
     useEffect(() => {
         fetch('http://localhost:3000/api/teams')
             .then(res => res.json())
@@ -16,7 +19,7 @@ export default function BrewersApp() {
             });
     }, []);
 
-    // Update Filtered Teams
+    // useEffect hook to update filtered teams based on selected league and division
     useEffect(() => {
         let updatedFilteredTeams = {};
 
@@ -30,7 +33,7 @@ export default function BrewersApp() {
         else if (selectedLeague && teams[selectedLeague]) {
             updatedFilteredTeams[selectedLeague] = teams[selectedLeague];
         }
-        // If neither league nor division are selected
+        // If neither league nor division are selected, show all teams
         else {
             updatedFilteredTeams = JSON.parse(JSON.stringify(teams));
         }
@@ -39,14 +42,16 @@ export default function BrewersApp() {
         setFilteredTeams(updatedFilteredTeams);
     }, [teams, selectedLeague, selectedDivision]);
 
-    // Reset selected division when selected league changes
+    // useEffect hook to reset selected division when selected league changes
     useEffect(() => {
         setSelectedDivision('');
     }, [selectedLeague]);
 
+    // JSX rendering the UI components
     return (
         <Container fluid>
             <Row>
+                {/* Dropdown for selecting league */}
                 <Col sm={12} md={6}>
                     <Dropdown>
                         <Dropdown.Toggle variant="primary" id="leagueDropdown">
@@ -67,6 +72,7 @@ export default function BrewersApp() {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
+                {/* Dropdown for selecting division */}
                 <Col sm={12} md={6}>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary" id="divisionDropdown" disabled={!selectedLeague}>
@@ -76,6 +82,7 @@ export default function BrewersApp() {
                             <Dropdown.Item onClick={() => setSelectedDivision('')}>
                                 All Divisions
                             </Dropdown.Item>
+                            {/* Display division options based on selected league */}
                             {selectedLeague && teams[selectedLeague] && Object.keys(teams[selectedLeague]).map(division => (
                                 <Dropdown.Item
                                     key={division}
@@ -88,13 +95,16 @@ export default function BrewersApp() {
                     </Dropdown>
                 </Col>
             </Row>
+            {/* Display filtered teams */}
             {Object.keys(filteredTeams).map(league => (
                 <div key={league}>
                     <h2>{league}</h2>
+                    {/* Display teams by division */}
                     {Object.keys(filteredTeams[league]).map(division => (
                         <div key={division}>
                             <h3>{division}</h3>
                             <Row>
+                                {/* Display individual team cards */}
                                 {filteredTeams[league][division].map(team => (
                                     <Col key={team.id}>
                                         <Team {...team} />
