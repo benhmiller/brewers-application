@@ -16,7 +16,6 @@ function groupTeams(teams) {
 
   // Iterate through each team
   teams.forEach(team => {
-    console.log(team.leage);
     // Check if the league exists in groupedTeams, if not, create it
     if (!groupedTeams[team.leage]) {
       groupedTeams[team.leage] = {};
@@ -46,7 +45,7 @@ app.get('/api/teams', async (req, res) => {
     
     // Manipulate the data to group teams by league and division
     const groupedTeams = groupTeams(response.data);
-    console.log(groupedTeams);
+    //console.log(groupedTeams);
     
     // Send the formatted data back to the client
     res.json(groupedTeams);

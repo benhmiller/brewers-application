@@ -18,9 +18,7 @@ export default function BrewersApp() {
 
     // Update Filtered Teams
     useEffect(() => {
-        console.log(selectedLeague)
         let updatedFilteredTeams = {};
-        console.log(teams);
 
         // If both league and division are selected
         if (selectedLeague && selectedDivision && teams[selectedLeague] && teams[selectedLeague][selectedDivision]) {
@@ -34,7 +32,7 @@ export default function BrewersApp() {
         }
         // If neither league nor division are selected
         else {
-            updatedFilteredTeams = JSON.parse(JSON.stringify(teams));
+            updatedFilteredTeams = JSON.parse(JSON.stcringify(teams));
         }
 
         // Set the filtered teams state
