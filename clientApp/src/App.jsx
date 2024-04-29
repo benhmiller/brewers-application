@@ -1,4 +1,4 @@
-import BrewersApp from "../components/structural/BrewersApp"
+import BrewersApp from "../components/BrewersApp"
 import './App.css'
 
 function App() {

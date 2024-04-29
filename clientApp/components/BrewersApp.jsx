@@ -32,7 +32,7 @@ export default function BrewersApp() {
         }
         // If neither league nor division are selected
         else {
-            updatedFilteredTeams = JSON.parse(JSON.stcringify(teams));
+            updatedFilteredTeams = JSON.parse(JSON.stringify(teams));
         }
 
         // Set the filtered teams state
